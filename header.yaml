@@ -1,0 +1,28 @@
+pack_id: sherlock_holmes_221b
+name: 221B Baker Street
+category: experiences
+status: active
+version: 1.0.0
+estimated_turns: 30-60
+description: >
+  Full-scale Sherlock Holmes investigation engine. Five cartridges,
+  three character modes, clue tracking, suspect management, and a
+  Scotland Yard case file deliverable. Start with a canonical case
+  or generate an original mystery. Every session ends with a named
+  perpetrator and a complete dossier.
+author: TMOS13, LLC
+deliverable: scotland_yard_dossier
+tags: [experiences, mystery, sherlock-holmes, investigation, narrative, games, literature]
+canonical_seeds:
+  - a_study_in_scarlet
+  - hound_of_the_baskervilles
+  - the_speckled_band
+  - the_red_headed_league
+  - a_scandal_in_bohemia
+  - the_final_problem
+  - the_blue_carbuncle
+  - original
+character_modes:
+  - client
+  - holmes
+  - watson
