@@ -6,8 +6,6 @@ Five cartridges. Three character modes. Full clue tracking.
 Every session ends with a Scotland Yard case file — suspects, evidence,
 deductions, and a named perpetrator.
 
-[tmos13.ai](https://tmos13.ai) · [hello@tmos13.ai](mailto:hello@tmos13.ai)
-
 ---
 
 ### How it works
@@ -28,20 +26,17 @@ A Scotland Yard dossier is generated. The perpetrator is named.
 
 | Cartridge | Purpose |
 |-----------|---------|
-| **Baker Street** | The sitting room. Case intake, character selection, orientation. |
+| **Baker Street** | Case intake, character selection, orientation. |
 | **Crime Scene** | Evidence collection. Clues logged, physical details catalogued. |
 | **Deduction Chamber** | Holmes's internal process. Hypothesis formation, elimination. |
 | **The Archive** | Cross-referencing. Prior cases, criminal records, behavioral patterns. |
-| **Scotland Yard** | Final session. The reveal. Case file generated. |
-
----
+| **Scotland Yard** | The reveal. Case file generated. |
 
 ### The canonical seeds
 
 Start with a known Holmes case — the pack uses it as structural scaffolding
 and departs into original territory as the investigation develops.
 
-Available seeds:
 - A Study in Scarlet
 - The Hound of the Baskervilles
 - The Speckled Band
@@ -49,9 +44,7 @@ Available seeds:
 - A Scandal in Bohemia
 - The Final Problem
 - The Adventure of the Blue Carbuncle
-- Original case (the pack generates from scratch)
-
----
+- Original case (generated from scratch)
 
 ### The deliverable
 
@@ -66,16 +59,62 @@ Available seeds:
 
 ---
 
-### Run it
+### Pack structure
 
-On [tmos13.ai](https://tmos13.ai) — select 221B from the pack library.
-
-Or via the API:
-```bash
-curl -X POST https://joyful-dream-production-792d.up.railway.app/sessions \
-  -H "Content-Type: application/json" \
-  -d '{"pack_id": "sherlock_holmes_221b"}'
 ```
+221b/
+├── README.md
+├── header.yaml          — pack metadata
+├── MANIFEST.md          — master governing protocol
+└── cartridges/
+    ├── baker_street.md
+    ├── crime_scene.md
+    ├── deduction_chamber.md
+    ├── the_archive.md
+    └── scotland_yard.md
+```
+
+---
+
+### Run it yourself
+
+This is a reference implementation of a TMOS13 pack. Clone the repo,
+load the protocol into any Claude API session, and run it directly.
+
+**Minimum setup:**
+
+```python
+import anthropic
+
+with open("MANIFEST.md", "r") as f:
+    manifest = f.read()
+
+client = anthropic.Anthropic()
+
+messages = []
+
+print("Session started. Type your message.\n")
+
+while True:
+    user_input = input("You: ")
+    messages.append({"role": "user", "content": user_input})
+
+    response = client.messages.create(
+        model="claude-opus-4-5-20251101",
+        max_tokens=1024,
+        system=manifest,
+        messages=messages
+    )
+
+    reply = response.content[0].text
+    messages.append({"role": "assistant", "content": reply})
+    print(f"\nAssistant: {reply}\n")
+```
+
+Requires: `pip install anthropic` and an `ANTHROPIC_API_KEY` environment variable.
+
+For the full TMOS13 engine — pack state management, vault, deliverables,
+multi-cartridge routing — visit [tmos13.ai](https://tmos13.ai).
 
 ---
 
